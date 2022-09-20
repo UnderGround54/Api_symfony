@@ -6,10 +6,13 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PostRepository;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ApiResource()]
 class Post
 {
     #[ORM\Id]
@@ -19,10 +22,12 @@ class Post
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     #[Groups(['post'])]
     private ?string $title = null;
 
     #[ORM\Column()]
+    #[Assert\NotBlank]
     #[Groups(['post'])]
     private ?string $content = null;
 
@@ -31,11 +36,13 @@ class Post
     private ?DateTime $createdAt = null;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
+    #[Groups(['post'])]
     private Collection $comments;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
