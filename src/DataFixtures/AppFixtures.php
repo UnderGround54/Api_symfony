@@ -4,8 +4,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Post;
 use App\Entity\Comment;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class AppFixtures extends Fixture
 {
@@ -17,7 +18,7 @@ class AppFixtures extends Fixture
             $post = new Post;
             $post->setTitle($faker->catchPhrase)
                 ->setContent($faker->paragraphs(5, true))
-                ->setCreatedAt($faker->dateTimeBetween('-6 months'));
+                ->setCreatedAt($faker->dateTimeBetween('+1 week', '+1 month'));
 
             $manager->persist($post);
 
@@ -29,6 +30,7 @@ class AppFixtures extends Fixture
 
                 $manager->persist($comment);
             }
+        }
 
         $manager->flush();
     }

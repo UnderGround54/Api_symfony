@@ -14,10 +14,10 @@ class Comment
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 20)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 255, type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
